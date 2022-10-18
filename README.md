@@ -1,6 +1,6 @@
 # gen-wireguard
 
-Simple hub-and-spoke wireguard key and configuration generator. Quickly generate the required config files for one or more clients.
+Simple hub-and-spoke wireguard configuration generator. Quickly generate the required keys and configuration files for one or more clients in a traditional server-client VPN setup.
 
 # Requirements
 
@@ -21,7 +21,7 @@ Required dependencies:
     client1.conf  server.conf
 ```
 
-A number of environment variables can be set to modify default behavior:
+Environment variables can be set to modify default behavior:
 
 ```
     NET         IPv4 range assigned to wireguard interfaces, (str) IPv4 net/24, default "10.9.0"
@@ -29,7 +29,7 @@ A number of environment variables can be set to modify default behavior:
     KEEPALIVE   PersistentKeepAlive, (int) seconds, default 0
 ```
 
-To generate a configuration with three clients, a `PersistentKeepAlive` of 25 seconds, in IPv4 range 10.192.0.x, for example:
+A configuration with three clients, a `PersistentKeepAlive` of 25 seconds, in IPv4 range 10.192.0.x, for example:
 
 ```
     > KEEPALIVE=25 NET="10.192.0" ./gen-wireguard.sh example 172.16.192.1 3
