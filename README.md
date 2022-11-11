@@ -26,10 +26,10 @@ Environment variables can be set to modify default behavior:
 ```
     NET         IPv4 range assigned to wireguard interfaces, (str) IPv4 net/24, default "10.9.0"
     PORT        Server port, (int) UDP port, default 5182
-    KEEPALIVE   PersistentKeepAlive, (int) seconds, default 0
+    KEEPALIVE   PersistentKeepalive, (int) seconds, default 0
 ```
 
-A configuration with three clients, a `PersistentKeepAlive` of 25 seconds, in IPv4 range 10.192.0.x, for example:
+A configuration with three clients, a `PersistentKeepalive` of 25 seconds, in IPv4 range 10.192.0.0/24, for example:
 
 ```
     > KEEPALIVE=25 NET="10.192.0" ./gen-wireguard.sh example 172.16.192.1 3
