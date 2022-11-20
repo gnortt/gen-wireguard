@@ -32,10 +32,10 @@ OUT_DIR="$(pwd)/$OUT_DIR"
 SERVER_KEY=$(wg genkey)
 SERVER_PUB=$(echo -n "$SERVER_KEY" | wg pubkey)
 
-echo -e "[Interface]\n" \
-"Address = ${NET}.1/24\n" \
-"PrivateKey = ${SERVER_KEY}\n" \
-"ListenPort = ${PORT}\n" > "$OUT_DIR"/server.conf
+echo -e "[Interface]
+Address = ${NET}.1/24
+PrivateKey = ${SERVER_KEY}
+ListenPort = ${PORT}\n" > "$OUT_DIR"/server.conf
 
 for (( C=1; C<=CLIENTS; C++ )); do
     CLIENT_IP=$((C + 1))
@@ -43,19 +43,20 @@ for (( C=1; C<=CLIENTS; C++ )); do
     CLIENT_PUB=$(echo -n "$CLIENT_KEY" | wg pubkey)
     CLIENT_PSK=$(wg genpsk)
 
-    echo -e "[Interface]\n" \
-"Address = ${NET}.${CLIENT_IP}/32\n" \
-"PrivateKey = ${CLIENT_KEY}\n\n" \
-"[Peer]\n" \
-"PublicKey = ${SERVER_PUB}\n" \
-"Endpoint = ${SERVER_IP}:${PORT}\n" \
-"AllowedIPs = ${NET}.1/32\n" \
-"PresharedKey = ${CLIENT_PSK}\n" \
-"${KEEPALIVE}" > "$OUT_DIR"/client"$C".conf
+    echo "[Interface]
+Address = ${NET}.${CLIENT_IP}/32
+PrivateKey = ${CLIENT_KEY}
 
-    echo -e "[Peer]\n" \
-"PublicKey = ${CLIENT_PUB}\n" \
-"AllowedIPs = ${NET}.${CLIENT_IP}/32\n" \
-"PresharedKey = ${CLIENT_PSK}\n" \
-"${KEEPALIVE}\n" >> "$OUT_DIR"/server.conf
+[Peer]
+PublicKey = ${SERVER_PUB}
+Endpoint = ${SERVER_IP}:${PORT}
+AllowedIPs = ${NET}.1/32
+PresharedKey = ${CLIENT_PSK}
+${KEEPALIVE}" > "$OUT_DIR"/client"$C".conf
+
+    echo -e "[Peer]
+PublicKey = ${CLIENT_PUB}
+AllowedIPs = ${NET}.${CLIENT_IP}/32
+PresharedKey = ${CLIENT_PSK}
+${KEEPALIVE}" >> "$OUT_DIR"/server.conf
 done
