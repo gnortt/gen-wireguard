@@ -43,7 +43,7 @@ if [ "$CLIENTS" -gt 254 ] || [ "$CLIENTS" -lt 1 ]; then
 fi
 
 if [ $KEEPALIVE -gt 0 ]; then
-    KEEPALIVE="PersistentKeepalive="$KEEPALIVE
+    KEEPALIVE="PersistentKeepalive=${KEEPALIVE}\n"
 else
     KEEPALIVE=""
 fi
@@ -65,7 +65,7 @@ for (( C=1; C<=CLIENTS; C++ )); do
     CLIENT_PUB=$(echo -n "$CLIENT_KEY" | wg pubkey)
     CLIENT_PSK=$(wg genpsk)
 
-    echo "[Interface]
+    echo -e "[Interface]
 Address = ${NET}.${CLIENT_IP}/32
 PrivateKey = ${CLIENT_KEY}
 
