@@ -2,15 +2,37 @@
 
 set -e
 
-if [ $# -le 1 ]; then
-    echo "Usage: $0 [output directory] [server ip] [clients (1-253, optional)]"
+usage() {
+    echo "Usage: $0 [options] <output_directory> <server_ip>
+
+    Options:
+      -c    number of clients, 1 (default) to 253
+      -k    keepalive timeout, default 0 (disabled) seconds
+      -n    ip range, default 10.9.0
+      -p    server udp port, default 5182"
     exit 1
+}
+
+while getopts "c:k:n:p:" flag; do
+    case "$flag" in
+        c)  CLIENTS=$OPTARG;;
+        k)  KEEPALIVE=$OPTARG;;
+        n)  NET=$OPTARG;;
+        p)  PORT=$OPTARG;;
+        \?) usage;;
+    esac
+done
+
+shift $((OPTIND - 1))
+
+if [ $# -le 1 ]; then
+    usage
 fi
 
 OUT_DIR=$1
 SERVER_IP=$2
-CLIENTS=${3:-1}
 
+: "${CLIENTS:=1}"
 : "${NET:="10.9.0"}"
 : "${PORT:=5182}"
 : "${KEEPALIVE:=0}"
