@@ -43,7 +43,7 @@ if [ "$CLIENTS" -gt 254 ] || [ "$CLIENTS" -lt 1 ]; then
 fi
 
 if [ $KEEPALIVE -gt 0 ]; then
-    KEEPALIVE="PersistentKeepalive=${KEEPALIVE}\n"
+    KEEPALIVE="PersistentKeepalive = ${KEEPALIVE}\n"
 else
     KEEPALIVE=""
 fi
